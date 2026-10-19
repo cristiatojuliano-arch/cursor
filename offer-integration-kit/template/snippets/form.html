@@ -1,0 +1,52 @@
+<!--
+  BINOM lead form — paste into lander (quiz / LP / panet).
+  Required name= attributes must stay exactly as below (form.js + send.php depend on them).
+  Binom macros {clickid} {pixel} {buyer} … are filled by tracker append_to_url + tracking-scripts.
+-->
+<form method="post" autocomplete="on" class="_form form" id="form" action="send.php">
+  <!-- ===== TRACKING (required) ===== -->
+  <input type="hidden" name="subid" value="{subid}">
+  <input type="hidden" name="clickid" id="binom_clickid" value="{clickid}">
+  <input type="hidden" name="fbclid" value="{fbclid}">
+  <input type="hidden" name="extr" value="{click_id}">
+  <input type="hidden" name="pixel" value="{pixel}">
+  <input type="hidden" name="bpixel" value="{bpixel}">
+  <input type="hidden" name="place" value="{place}">
+  <input type="hidden" name="gclid" value="{gclid}">
+  <input type="hidden" name="buyer_mark" value="{buyer}">
+
+  <!-- ===== UTM / FB placement (required for ACPA + reporting) ===== -->
+  <input type="hidden" name="utm_source" value="{utm_source}">
+  <input type="hidden" name="utm_medium" value="{utm_medium}">
+  <input type="hidden" name="utm_campaign" value="{utm_campaign}">
+  <input type="hidden" name="utm_content" value="{utm_content}">
+  <input type="hidden" name="utm_term" value="{utm_term}">
+  <input type="hidden" name="utm_placement" value="{utm_placement}">
+  <input type="hidden" name="utm_creative" value="{utm_creative}">
+  <input type="hidden" name="utm_position" value="{utm_position}">
+  <input type="hidden" name="utm_network" value="{utm_network}">
+  <input type="hidden" name="utm_target" value="{utm_target}">
+  <input type="hidden" name="utm_match" value="{utm_match}">
+
+  <!-- ===== Offer tags (optional analytics) ===== -->
+  <input type="hidden" name="oi" value="offer-slug">
+  <input type="hidden" name="landing" value="offer-slug-lander">
+
+  <!-- ===== Visible fields (required by validation) ===== -->
+  <div class="form-group">
+    <input type="text" name="firstname" id="firstname" placeholder="First name" required autocomplete="given-name">
+  </div>
+  <div class="form-group">
+    <input type="text" name="lastname" id="lastname" placeholder="Last name" required autocomplete="family-name">
+  </div>
+  <div class="form-group">
+    <input type="email" name="email" id="email" placeholder="Email" required autocomplete="email">
+  </div>
+  <div class="form-group">
+    <!-- intl-tel-input mounts here; form.js posts E.164 as phone -->
+    <input type="tel" name="phone" id="phone" placeholder="Phone" required autocomplete="tel">
+  </div>
+
+  <button type="submit" class="reg-btn">Submit</button>
+  <div class="loader"></div>
+</form>

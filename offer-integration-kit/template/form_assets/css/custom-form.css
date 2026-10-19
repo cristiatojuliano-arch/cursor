@@ -1,0 +1,138 @@
+/* ===============================================
+   АДАПТАЦИЯ УНИВЕРСАЛЬНОЙ ФОРМЫ ПОД ЛЕНДИНГ
+   =============================================== */
+
+/* 1. Сбрасываем контейнер формы */
+._form.form {
+    width: 100%;
+    max-width: 100%;
+    padding: 0;
+    margin: 0;
+    font-family: 'Montserrat', sans-serif;
+}
+
+/* 2. Отступы между полями */
+._form .form-group {
+    position: relative;
+    margin-bottom: 30px; /* Отступ как в вашем дизайне */
+    width: 100%;
+}
+
+/* 3. Стилизация INPUT (Делаем прозрачным с подчеркиванием) */
+._form input {
+    width: 100%;
+    height: 45px; /* Высота поля */
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid rgba(240, 231, 213, 0.5); /* Ваш var(--white) с прозрачностью */
+    border-radius: 0; /* Убираем скругление */
+    padding: 10px 0;
+    font-size: 16px;
+    color: var(--white); /* #F0E7D5 */
+    outline: none;
+    box-shadow: none;
+    transition: all 0.3s ease;
+}
+
+/* Эффект при клике (Фокус) */
+._form input:focus {
+    border-bottom-color: var(--gold-accent); /* Золотая линия */
+    box-shadow: 0 1px 0 0 var(--gold-accent); /* Легкое свечение снизу */
+}
+
+/* Ошибка валидации */
+._form input.error {
+    border-bottom-color: #ff4444 !important;
+    box-shadow: none;
+}
+
+/* 4. Плавающие лейблы (вместо placeholder) */
+._form .form-group label {
+    position: absolute;
+    top: 10px;
+    left: 0;
+    color: rgba(240, 231, 213, 0.7); /* Цвет лейбла */
+    font-size: 16px;
+    pointer-events: none;
+    transition: all 0.3s ease;
+    z-index: 1;
+}
+
+/* Логика подъема лейбла */
+._form input:focus + label,
+._form input:not(:placeholder-shown) + label {
+    top: -15px;
+    font-size: 12px;
+    color: var(--gold-accent);
+}
+
+/* 5. Кнопка отправки */
+._form .reg-btn {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    background-color: var(--gold-accent);
+    color: var(--dark-bg); /* Темный текст на золотом (#212842) */
+    border: none;
+    border-radius: 0; /* Острые края или 4px */
+    font-size: 16px;
+    font-weight: 700;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 15px;
+}
+
+._form .reg-btn:hover {
+    background-color: #c49d32;
+}
+
+/* 6. Адаптация под библиотеку телефонов (Intl Tel Input) */
+._form .iti {
+    width: 100%;
+    display: block;
+}
+
+/* Чтобы флаг и номер сочетались с прозрачным стилем */
+._form .iti__tel-input {
+    background: transparent !important;
+    border: none !important;
+    border-bottom: 1px solid rgba(240, 231, 213, 0.5) !important;
+    color: var(--white) !important;
+    padding-left: 79px !important; /* Отступ под флаг */
+    border-radius: 0 !important;
+}
+
+/* При фокусе на телефон */
+._form .iti__tel-input:focus {
+    border-bottom-color: var(--gold-accent) !important;
+    box-shadow: 0 1px 0 0 var(--gold-accent) !important;
+}
+
+/* Список стран (делаем темным) */
+.iti__country-list {
+    background-color: var(--dark-bg);
+    border: 1px solid var(--gold-accent);
+    color: var(--white);
+}
+.iti__country-name {
+    color: var(--white);
+}
+.iti__dial-code {
+    color: var(--gold-accent);
+}
+
+/* 7. Лоадер */
+.loader {
+    display: none;
+    margin: 10px auto;
+    width: 30px; height: 30px;
+    border: 3px solid rgba(255,255,255,0.2);
+    border-top-color: var(--gold-accent);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+@keyframes spin { 100% { transform: rotate(360deg); } }
+
+.loading .loader { display: block; }
+.loading .reg-btn { opacity: 0.5; pointer-events: none; }

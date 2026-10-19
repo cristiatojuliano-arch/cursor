@@ -1,0 +1,55 @@
+.iti {
+    width: 100%;
+    position: relative;
+}
+
+.mc--loading {
+    font-size: 0 !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+}
+
+.mc--loading.u-form-control-hidden {
+    display: none !important;
+}
+
+.mc--loading > * {
+    display: none !important;
+}
+
+.mc--loading:before {
+    content: "";
+    display: block;
+    width: 1.2rem;
+    height: 1.2rem;
+    border: .2rem solid #999999;
+    border-top: .2rem solid #f3f3f3;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.validation-error {
+    color: #ff0000;
+    font-size: 12px;
+    margin-top: 4px;
+    display: none;
+    width: 100%;
+}
+.validation-error.show {
+    display: block;
+}
+input.error {
+    border-color: #ff0000 !important;
+    outline-color: #ff0000 !important;
+}
+/* Optional: Success state */
+input.correct {
+    border-color: #28a745 !important;
+    outline-color: #28a745 !important;
+}
