@@ -1,0 +1,223 @@
+<script data-binom-clean-nav="1">
+(function(){
+  var TRACK = [
+    "pixel","tt_test_id","bpixel","subid","fbclid","extr","click_id","clickid","bcid","gclid",
+    "place","buyer","utm_source","utm_medium","utm_campaign","utm_content",
+    "utm_term","utm_creative","utm_position","utm_network","utm_target",
+    "utm_placement","utm_match","campaign_id","adset_id","ad_id","adset_name",
+    "ad_name","campaign_name","source"
+  ];
+  var KEEP = { key:1, buyer:1, pixel:1 };
+
+  function persistFromUrl(){
+    try {
+      var u = new URL(location.href);
+      TRACK.forEach(function(k){
+        var v = u.searchParams.get(k);
+        if (!v || /^\{.+\}$/.test(v)) return;
+        try { localStorage.setItem("_tk_" + k, v); } catch (e) {}
+        try {
+          document.cookie = "_tk_" + k + "=" + encodeURIComponent(v) +
+            ";path=/;max-age=604800;SameSite=Lax" +
+            ((location.protocol === "https:") ? ";Secure" : "");
+        } catch (e) {}
+      });
+      // Lock real click id from lander URL so DEFAULT campaign cookie cannot overwrite it
+      var cid = u.searchParams.get("clickid") || u.searchParams.get("subid") || u.searchParams.get("bcid");
+      if (cid && !/^\{.+\}$/.test(cid) && cid.length >= 6) {
+        try { localStorage.setItem("_tk_clickid_locked", cid); } catch (e) {}
+        try {
+          document.cookie = "_tk_clickid_locked=" + encodeURIComponent(cid) +
+            ";path=/;max-age=604800;SameSite=Lax" +
+            ((location.protocol === "https:") ? ";Secure" : "");
+        } catch (e) {}
+        // Overwrite Binom bcid cookie so DEFAULT domain-root hits cannot steal postbacks
+        try {
+          document.cookie = "bcid=" + encodeURIComponent(cid) +
+            ";path=/;max-age=604800;SameSite=Lax" +
+            ((location.protocol === "https:") ? ";Secure" : "");
+          localStorage.setItem("_tk_clickid", cid);
+          localStorage.setItem("_tk_subid", cid);
+        } catch (e) {}
+      }
+    } catch (e) {}
+  }
+
+  function readStore(k){
+    try {
+      var u = new URL(location.href);
+      var fromUrl = u.searchParams.get(k);
+      if (fromUrl && !/^\{.+\}$/.test(fromUrl)) return fromUrl;
+    } catch (e) {}
+    try {
+      var ls = localStorage.getItem("_tk_" + k);
+      if (ls) return ls;
+    } catch (e) {}
+    try {
+      var m = document.cookie.match(new RegExp("(?:^|; )_tk_" + k + "=([^;]*)"));
+      if (m) return decodeURIComponent(m[1]);
+    } catch (e) {}
+    return "";
+  }
+
+  function lockedClickId(){
+    var v = readStore("clickid_locked");
+    if (v) return v;
+    // URL first, then stored clickid/subid — NEVER prefer raw bcid cookie alone
+    var u = "";
+    try {
+      var sp = new URL(location.href).searchParams;
+      u = sp.get("clickid") || sp.get("subid") || "";
+    } catch (e) {}
+    if (u && !/^\{.+\}$/.test(u)) return u;
+    return readStore("clickid") || readStore("subid") || "";
+  }
+
+  function fillFormFields(){
+    try {
+      var map = {
+        buyer_mark: "buyer",
+        buyer: "buyer",
+        pixel: "pixel",
+        subid: "subid",
+        clickid: "clickid",
+        click_id: "click_id",
+        extr: "extr",
+        fbclid: "fbclid",
+        utm_campaign: "utm_campaign",
+        utm_content: "utm_content",
+        utm_term: "utm_term",
+        utm_source: "utm_source",
+        utm_placement: "utm_placement",
+        campaign_id: "campaign_id",
+        adset_id: "adset_id",
+        ad_id: "ad_id",
+        adset_name: "adset_name",
+        ad_name: "ad_name",
+        source: "source"
+      };
+      Object.keys(map).forEach(function(name){
+        var v = readStore(map[name]);
+        if (!v && name === "utm_campaign") v = readStore("campaign_name") || readStore("utm_campaign");
+        if (!v && name === "utm_content") v = readStore("adset_name") || readStore("utm_content");
+        if (!v && name === "utm_term") v = readStore("ad_name") || readStore("utm_term");
+        if (!v && name === "buyer_mark") v = readStore("buyer");
+        if (!v && name === "extr") v = lockedClickId();
+        if (name === "clickid" || name === "subid") {
+          v = lockedClickId() || v;
+        }
+        if (!v) return;
+        document.querySelectorAll('input[name="' + name + '"]').forEach(function(el){
+          // Always enforce locked clickid/subid; for others only fill empty/macros
+          if (name === "clickid" || name === "subid") {
+            el.value = v;
+          } else if (!el.value || /^\{.+\}$/.test(el.value)) {
+            el.value = v;
+          }
+        });
+      });
+    } catch (e) {}
+  }
+
+  function cleanUrl(hash){
+    try {
+      persistFromUrl();
+      var u = new URL(location.href);
+      if (u.pathname.indexOf("/landers/") === 0) {
+        fillFormFields();
+        return;
+      }
+      var next = u.pathname;
+      var qs = [];
+      Object.keys(KEEP).forEach(function(k){
+        var v = u.searchParams.get(k) || readStore(k);
+        if (k === "key") v = u.searchParams.get("key") || v;
+        if (v && !/^\{.+\}$/.test(v)) qs.push(encodeURIComponent(k) + "=" + encodeURIComponent(v));
+      });
+      if (qs.length) next += "?" + qs.join("&");
+      if (hash) next += hash.charAt(0) === "#" ? hash : ("#" + hash);
+      else if (u.hash) next += u.hash;
+      if (next !== u.pathname + u.search + u.hash) history.replaceState(null, "", next);
+      fillFormFields();
+    } catch (e) {}
+  }
+
+  document.addEventListener("click", function(e){
+    var a = e.target && e.target.closest ? e.target.closest("a[href]") : null;
+    if (!a) return;
+    var href = a.getAttribute("href") || "";
+    if (href.indexOf("/click?lp=1") === -1) return;
+    try {
+      var u = new URL(href, location.origin);
+      TRACK.forEach(function(k){
+        var v = readStore(k);
+        if (v && !u.searchParams.get(k)) u.searchParams.set(k, v);
+      });
+      var cid = lockedClickId();
+      if (cid) {
+        u.searchParams.set("clickid", cid);
+        u.searchParams.set("subid", cid);
+      }
+      u.searchParams.set("lp", "1");
+      a.setAttribute("href", u.pathname + "?" + u.searchParams.toString());
+    } catch (err) {}
+  }, true);
+
+  persistFromUrl();
+  document.addEventListener("click", function(e){
+    var a = e.target && e.target.closest ? e.target.closest("a[href]") : null;
+    if (!a) return;
+    var href = a.getAttribute("href");
+    if (!href || href.charAt(0) !== "#") return;
+    e.preventDefault();
+    e.stopPropagation();
+    var id = href.slice(1);
+    if (id) {
+      var el = document.getElementById(id);
+      if (!el) {
+        try { el = document.querySelector('[name="' + id.replace(/"/g, "") + '"]'); } catch (err) {}
+      }
+      if (el && el.scrollIntoView) el.scrollIntoView({behavior:"smooth", block:"start"});
+    }
+    cleanUrl(href);
+  }, true);
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", function(){ cleanUrl(null); });
+  } else {
+    cleanUrl(null);
+  }
+})();
+</script>
+
+<script data-binom-clickid-fill="1">
+(function(){
+  function locked(){
+    try {
+      var sp = new URL(location.href).searchParams;
+      var v = sp.get("clickid") || sp.get("subid") || "";
+      if (v && v.charAt(0) !== "{") return v;
+    } catch (e) {}
+    try {
+      var ls = localStorage.getItem("_tk_clickid_locked") || localStorage.getItem("_tk_clickid") || localStorage.getItem("_tk_subid");
+      if (ls) return ls;
+    } catch (e) {}
+    try {
+      var m = document.cookie.match(/(?:^|; )_tk_clickid_locked=([^;]*)/);
+      if (m) return decodeURIComponent(m[1]);
+    } catch (e) {}
+    return "";
+  }
+  function apply(){
+    var v = locked();
+    if (!v) return;
+    document.querySelectorAll('input[name="clickid"],input[name="subid"]').forEach(function(el){
+      el.value = v;
+    });
+  }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", apply);
+  else apply();
+  setTimeout(apply, 50);
+  setTimeout(apply, 500);
+})();
+</script>

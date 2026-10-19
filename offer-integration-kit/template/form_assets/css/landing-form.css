@@ -1,0 +1,139 @@
+/* ===== Form Styles for Quiz Landing ===== */
+/* Loaded AFTER custom-form.css to override chargebacks-style with quiz-style */
+
+._form.form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    font-family: inherit;
+}
+
+._form.form .form-group {
+    width: 100%;
+    margin-bottom: 0;
+}
+
+/* All visible inputs: same rounded dark style */
+._form.form input[type="text"],
+._form.form input[type="email"],
+._form.form input[type="tel"] {
+    width: 100% !important;
+    height: auto !important;
+    padding: 18px 20px !important;
+    border-radius: 32px !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+    background: rgba(255, 255, 255, 0.06) !important;
+    color: #fff !important;
+    font-size: 16px;
+    font-weight: 400;
+    outline: none;
+    box-sizing: border-box;
+    box-shadow: none !important;
+    transition: border-color 0.2s ease, background 0.2s ease;
+    font-family: inherit;
+}
+
+._form.form input[type="text"]::placeholder,
+._form.form input[type="email"]::placeholder,
+._form.form input[type="tel"]::placeholder {
+    color: rgba(255, 255, 255, 0.45);
+    font-weight: 400;
+}
+
+._form.form input[type="text"]:focus,
+._form.form input[type="email"]:focus,
+._form.form input[type="tel"]:focus {
+    border-color: rgba(255, 255, 255, 0.4) !important;
+    border-bottom-color: rgba(255, 255, 255, 0.4) !important;
+    background: rgba(255, 255, 255, 0.1) !important;
+    box-shadow: none !important;
+}
+
+/* Button */
+._form.form .reg-btn {
+    width: 100%;
+    padding: 20px 32px;
+    border-radius: 40px;
+    border: none;
+    background: #e7fe54;
+    color: #1a1f30;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s ease;
+    text-transform: none;
+    letter-spacing: 0;
+    font-family: inherit;
+    margin-top: 6px;
+}
+
+._form.form .reg-btn:hover {
+    background: #cce244;
+}
+
+._form.form .reg-btn:active {
+    transform: translateY(1px);
+}
+
+/* Loader */
+._form.form .loader {
+    display: none;
+    width: 24px;
+    height: 24px;
+    border: 3px solid rgba(255, 255, 255, 0.2);
+    border-top-color: #e7fe54;
+    border-radius: 50%;
+    animation: landingSpin 0.6s linear infinite;
+    margin: 8px auto 0;
+}
+
+._form.form.is-loading .loader {
+    display: block;
+}
+
+._form.form.is-loading .reg-btn {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+@keyframes landingSpin {
+    to { transform: rotate(360deg); }
+}
+
+/* ===== intl-tel-input overrides for dark rounded theme ===== */
+._form.form .iti {
+    width: 100%;
+    display: block;
+}
+
+/* Flag area transparent, rounded left side */
+._form.form .iti--separate-dial-code .iti__selected-flag {
+    background: transparent !important;
+    border-radius: 32px 0 0 32px;
+}
+
+._form.form .iti--separate-dial-code .iti__selected-dial-code {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 14px;
+}
+
+/* Phone input: same rounded style but with left padding for flag+code */
+._form.form .iti--separate-dial-code input[type="tel"],
+._form.form .iti input[type="tel"] {
+    padding-left: 90px !important;
+}
+
+/* Error state */
+._form.form input.error {
+    border-color: rgba(255, 80, 80, 0.6) !important;
+    border-bottom-color: rgba(255, 80, 80, 0.6) !important;
+}
+
+._form.form input.correct {
+    border-color: rgba(100, 255, 100, 0.4) !important;
+    border-bottom-color: rgba(100, 255, 100, 0.4) !important;
+}

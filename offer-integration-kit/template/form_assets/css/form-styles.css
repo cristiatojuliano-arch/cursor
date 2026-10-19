@@ -1,0 +1,328 @@
+/* Стили для форм: u-form-vertical, u-form-spacing-10, u-inner-form */
+
+/* Стили для контейнера формы */
+.form-container-main {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.form-container-main form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.form-container-main .u-form-group {
+  width: 100%;
+  margin-bottom: 0 !important;
+}
+
+.form-container-main input {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  padding: 10px 12px;
+  border-radius: 4px;
+}
+
+.form-container-main input:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* Стили для кнопки rf-form-button */
+.rf-form-button {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 12px;
+  border-radius: 4px;
+  background-color: #007bff;
+  color: white;
+  border: 1px solid #007bff;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.rf-form-button:hover {
+  background-color: #0056b3;
+  border-color: #0056b3;
+}
+
+.rf-form-button:active {
+  background-color: #004085;
+  border-color: #004085;
+}
+
+.rf-form-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.5);
+}
+
+/* Базовые стили для вертикальной формы */
+.u-form-vertical {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+}
+
+/* Стили для u-form-spacing-10 */
+.u-form-vertical.u-form-spacing-10,
+.u-form-vertical.u-form-spacing-10 .u-form-step {
+  margin-left: -10px;
+  width: calc(100% + 10px);
+}
+
+.u-form-vertical.u-form-spacing-10 .u-form-group,
+.u-form-vertical.u-form-spacing-10 .u-form-step .u-form-group {
+  margin-bottom: 10px;
+}
+
+.u-form-vertical.u-form-spacing-10 .u-form-group:not(.u-image):not(.u-form-progress),
+.u-form-vertical.u-form-spacing-10 .u-form-step .u-form-group:not(.u-image):not(.u-form-progress) {
+  padding-left: 10px;
+}
+
+.u-form-vertical.u-form-spacing-10 .u-form-group.u-image,
+.u-form-vertical.u-form-spacing-10 .u-form-step .u-form-group.u-image {
+  margin-left: 10px !important;
+}
+
+.u-form-vertical.u-form-spacing-10 .u-form-group.u-form-line,
+.u-form-vertical.u-form-spacing-10 .u-form-step .u-form-group.u-form-line {
+  margin-left: 10px;
+}
+
+/* Стили для u-inner-form */
+.u-form-vertical.u-inner-form::before,
+.u-form-vertical.u-inner-form::after {
+  content: "";
+  width: 100%;
+  height: 0;
+  order: 1;
+}
+
+/* Адаптивный стиль для label-left */
+@media (max-width: 767px) {
+  .u-form-vertical .u-form-group.u-label-left {
+    display: block;
+  }
+}
+/* ==================== СТИЛИ ДЛЯ ИНПУТОВ ==================== */
+
+/* Базовые стили для input */
+.u-input {
+  display: block;
+  width: 100%;
+  padding: 10px 12px;
+  background-image: none;
+  background-clip: padding-box;
+  border-width: 0;
+  border-radius: 3px;
+  transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+  background-color: transparent;
+  color: inherit;
+  height: auto;
+}
+
+/* Стили для placeholder */
+.u-form ::placeholder {
+  opacity: 0.5;
+}
+
+.u-form :-ms-input-placeholder {
+  opacity: 1;
+}
+
+/* Стили для округлых и прямоугольных инпутов */
+.u-input-round {
+  border-radius: 4px;
+}
+
+.u-input-rectangle {
+  border-radius: 0;
+}
+
+/* Стили для чекбоксов */
+.u-form .u-form-group.u-form-checkbox,
+.u-form .u-form-group.u-form-agree {
+  display: flex;
+}
+
+.u-form .u-form-group.u-form-checkbox input[type="checkbox"],
+.u-form .u-form-group.u-form-agree input[type="checkbox"] {
+  float: left;
+  flex-shrink: 0;
+}
+
+.u-form .u-form-group.u-form-checkbox label.u-field-label:last-child,
+.u-form .u-form-group.u-form-agree label.u-field-label:last-child,
+.u-form .u-form-group.u-form-checkbox label.u-label:last-child,
+.u-form .u-form-group.u-form-agree label.u-label:last-child {
+  margin-left: 5px;
+}
+
+.u-form .u-form-group.u-form-checkbox label.u-field-label:last-child a,
+.u-form .u-form-group.u-form-agree label.u-field-label:last-child a,
+.u-form .u-form-group.u-form-checkbox label.u-label:last-child a,
+.u-form .u-form-group.u-form-agree label.u-label:last-child a {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.u-form .u-form-horizontal input[type="checkbox"] {
+  width: 13px;
+  max-width: 13px;
+  margin-bottom: 3px;
+  min-width: 13px;
+}
+
+/* Стили для select */
+.u-form-select-wrapper {
+  position: relative;
+}
+
+.u-form-select-wrapper select {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+}
+
+.u-form-select-wrapper .u-caret {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 10px;
+  pointer-events: none;
+}
+
+.u-form-select-wrapper select[size] ~ .u-caret {
+  display: none;
+}
+
+/* Стили для file upload */
+.u-form-file-upload input[type="file"] {
+  display: none !important;
+}
+
+.u-form-file-upload .u-file-template {
+  display: none !important;
+}
+
+.u-form-file-upload .u-file-input-wrapper,
+.u-form-file-upload .u-file-list,
+.u-form-file-upload .u-file-item {
+  display: flex;
+}
+
+.u-form-file-upload .u-file-input-wrapper {
+  flex-wrap: wrap;
+}
+
+.u-form-file-upload .u-file-item {
+  align-items: center;
+}
+
+.u-form-file-upload .u-file-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-wrap: normal;
+}
+
+.u-form-file-upload .u-file-list {
+  flex: 1 0 auto;
+  flex-direction: column;
+  max-width: 100%;
+}
+
+.u-form-file-upload .u-file-remove {
+  margin-left: 0.5em;
+  cursor: pointer;
+}
+
+.u-form-file-upload .u-upload-button {
+  margin: 0 0.5em 0 0;
+}
+
+/* Стили для label-left */
+.u-label-left label:nth-child(1) {
+  flex: none;
+  min-width: 100px;
+}
+
+.u-label-left label + input,
+.u-label-left label + textarea,
+.u-label-left label + .u-form-select-wrapper,
+.u-label-left label + div.u-input {
+  flex-grow: 1;
+}
+
+.u-label-left.u-form-agree label + input {
+  flex-grow: 0;
+}
+
+/* Адаптивный стиль для label-left */
+@media (max-width: 767px) {
+  .u-form-vertical .u-form-group.u-label-left {
+    display: block;
+  }
+}
+
+/* ==================== СТИЛИ ДЛЯ КНОПКИ SUBMIT ==================== */
+
+/* Базовые стили кнопки submit */
+.u-btn-submit,
+.u-btn-step {
+  display: inline-block;
+}
+
+.u-form .u-btn-submit,
+.u-form .u-btn-step {
+  margin-top: 1px;
+  margin-bottom: 1px;
+  position: relative;
+}
+
+/* Контейнер для кнопки submit */
+.u-btn-submit-container {
+  width: 100%;
+  pointer-events: none;
+}
+
+/* Стили для формы с label-left */
+.u-form-submit.u-label-left label {
+  pointer-events: none;
+}
+
+.u-form-submit.u-label-left .u-btn-submit {
+  pointer-events: auto;
+}
+
+/* Стили для горизонтальной формы */
+.u-form-horizontal .u-form-submit {
+  display: flex;
+  flex-grow: 0 !important;
+  margin-right: 0 !important;
+}
+
+.u-form-horizontal .u-form-submit label {
+  display: none !important;
+}
+
+.u-form-horizontal .u-form-group.u-label-top.u-form-submit {
+  align-self: flex-end;
+}
+
+.u-form-horizontal .u-form-group.u-form-submit {
+  margin-right: 0;
+}
+
+/* Адаптивные стили для кнопки submit */
+@media (max-width: 767px) {
+  .u-form-horizontal .u-btn-submit {
+    flex-grow: 1;
+  }
+}
